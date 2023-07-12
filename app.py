@@ -1,4 +1,6 @@
 from flask import Flask, request
+from dotenv import load_dotenv
+import pyodbc
 import csv
 
 app = Flask(__name__)
@@ -7,10 +9,8 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     return "Hello, Flask!"
-
-
-
 # Endpoint to receive CSV files
+
 @app.route('/upload', methods=['POST'])
 def upload_csv():
     csv_files = request.files.getlist('file')  # assuming the files are uploaded as 'file' in the request form data
@@ -26,6 +26,7 @@ def upload_csv():
     #Return message
     return 'CSV files uploaded successfully!'
 
+
 def parse_csv(csv_file):
     data = []
     reader = csv.DictReader(csv_file)
@@ -35,5 +36,7 @@ def parse_csv(csv_file):
     return data
 
 
+
 if __name__ == '__main__':
+    load_dotenv()
     app.run()
