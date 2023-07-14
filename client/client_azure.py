@@ -9,22 +9,27 @@ def __get_connection():
 def get_columns_tables(table_name):
     with __get_connection() as conn:
         cursor = conn.cursor()
-        columns_query = f"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = ?"
-        cursor.execute(columns_query,table_name)
+        columns_query = (
+            f"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = ?"
+        )
+        cursor.execute(columns_query, table_name)
         row = cursor.fetchone()
         columns = []
-        while row: 
+        while row:
             columns.append(row)
             row = cursor.fetchone()
         conn.commit()
-    return ','.join([x[0] for x in columns])
+    return ",".join([x[0] for x in columns])
+
 
 def insert_data(table_name, data):
     with __get_connection() as conn:
         cursor = conn.cursor()
         columns_query = get_columns_tables(table_name)
-        values = "'"+data.replace("'",' ').replace('\r','').replace(',',"','")+"'"
-        
+        values = (
+            "'" + data.replace("'", " ").replace("\r", "").replace(",", "','") + "'"
+        )
+
         insert_query = f"INSERT INTO {table_name} ({columns_query}) VALUES ({values})"
         cursor.execute(insert_query)
         conn.commit()
@@ -33,7 +38,7 @@ def insert_data(table_name, data):
 def hired_quarter(year):
     with __get_connection() as conn:
         cursor = conn.cursor()
-        
+
         query_result = f"""
             SELECT  
                     department 
@@ -59,10 +64,11 @@ def hired_quarter(year):
                 ) AS PivotTable
                 ORDER BY department, job
             """
-        
-        cursor.execute(query_result,year)
-        return cursor.fetchall() 
-        
+
+        cursor.execute(query_result, year)
+        return cursor.fetchall()
+
+
 def most_hired_departments(year):
     with __get_connection() as conn:
         cursor = conn.cursor()
@@ -86,7 +92,6 @@ def most_hired_departments(year):
                                             GROUP BY de.id,de.name) AS count)
                 ORDER BY hired DESC
             """
-        
-        cursor.execute(query_result,year)
-        return cursor.fetchall() 
 
+        cursor.execute(query_result, year)
+        return cursor.fetchall()
