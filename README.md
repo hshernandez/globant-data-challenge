@@ -12,7 +12,7 @@ Doesn't have any requisites
 
 Example CURL: curl --location 'http://127.0.0.1:5000'
 
-## localhost:5000/upload/<table_name>  {POST Request}
+## localhost:5000/upload/*table_name*  {POST Request}
 
 - With this end-point, the user would be able to upload a CSV file to the database. 
 - It's very important to indicate the table name as a query param.
@@ -23,7 +23,7 @@ Example CURL: curl --location 'http://127.0.0.1:5000'
 Example CURL: curl --location 'http://127.0.0.1:5000/upload/employees' 
 --form 'File=@"HERE_PLACE_THE_URL_OF_YOUR_LOCAL_EMPLOYEE_FILE"'
 
-## localhost:5000/hired_quarter/<year>  {POST Request}
+## localhost:5000/hired_quarter/*year*  {POST Request}
 
 - With this end-point, the user would be able to consult the amount of hired people per department per job in each quarter of the specific year
 - It's very important to indicate the year as a query param.
@@ -32,7 +32,7 @@ Example CURL: curl --location 'http://127.0.0.1:5000/upload/employees'
 
   Example CURL: curl --location 'http://127.0.0.1:5000/hired_quarter/2021'
 
-## localhost:5000/most_hired_department/<year>  {POST Request}
+## localhost:5000/most_hired_department/*year*  {POST Request}
 
 - With this end-point, the user would be able to consult the list of ids, names and number of employees hired by each department that hired more
 employees than the mean of employees hired in the given year for all the departments, ordered by the number of employees hired (descending).
