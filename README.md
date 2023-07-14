@@ -1,4 +1,4 @@
-# globant-data-challenge
+# Globant-data-challenge
 
 This project is written in Python using Flask.
 The Database is mounted in Azure Cloud as a Basic SQL Database.
