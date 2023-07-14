@@ -57,7 +57,7 @@ def get_columns_tables(table_name):
             columns.append(row)
             row = cursor.fetchone()
         conn.commit()
-    return ",".join([x[0] for x in columns])
+    return [x[0] for x in columns]
 
 
 def insert_data(table_name, data):
@@ -83,12 +83,9 @@ def insert_data(table_name, data):
     with __get_connection() as conn:
         cursor = conn.cursor()
         columns_query = get_columns_tables(table_name)
-        values = (
-            "'" + data.replace("'", " ").replace("\r", "").replace(",", "','") + "'"
-        )
 
-        insert_query = f"INSERT INTO {table_name} ({columns_query}) VALUES ({values})"
-        cursor.execute(insert_query)
+        insert_query = f"INSERT INTO {table_name} ({','.join(columns_query)}) VALUES ({','.join(['?' for _ in columns_query])})"
+        cursor.executemany(insert_query, data)
         conn.commit()
 
 
