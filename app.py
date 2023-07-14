@@ -2,7 +2,7 @@ from flask import Flask, request
 from dotenv import load_dotenv
 from flask_cors import CORS
 import service.insert_service as insert_data
-
+import service.query_service as query_data
 app = Flask(__name__)
 CORS(app)
 
@@ -23,6 +23,15 @@ def upload_csv(table_name):
     csv_files = request.files.getlist('File')[0]
     
     return insert_data.upload_csv(table_name, csv_files)
+
+@app.route("/hired_quarter/<year>")
+def hired_year_quarter(year):
+    return query_data.get_hired_quarter(year)
+
+
+@app.route("/most_hired_department/<year>")
+def most_hired_year(year):
+    return query_data.get_most_hired_departments(year)
 
 
 if __name__ == '__main__':
