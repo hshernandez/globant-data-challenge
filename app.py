@@ -39,6 +39,8 @@ def upload_csv(table_name):
     if "File" not in request.files:
         return "This method needs a csv file to operate. Please select a file", 400
 
+    if table_name == "" or table_name == None:
+        return "Please indicate a valid table in the Database. This parameter is mandatory."
     # assuming the files are uploaded as 'File' in the request form data.
     # And there's only one file
     csv_files = request.files.getlist("File")[0]
@@ -67,6 +69,10 @@ def hired_year_quarter(year):
         A GET request to '/hired_quarter/2022' will retrieve the hired data for the year 2022.
 
     """
+    if year == 0 or year == None:
+        return (
+            "Please indicate a valid year greater than 0. This parameter is mandatory."
+        )
 
     return query_data.get_hired_quarter(year)
 
@@ -92,6 +98,10 @@ def most_hired_year(year):
         A GET request to '/most_hired_department/2022' will retrieve the most hired departments for the year 2022.
 
     """
+    if year == 0 or year == None:
+        return (
+            "Please indicate a valid year greater than 0. This parameter is mandatory."
+        )
     return query_data.get_most_hired_departments(year)
 
 
